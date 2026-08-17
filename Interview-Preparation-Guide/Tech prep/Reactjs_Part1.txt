@@ -1,0 +1,141 @@
+1. Virtual Dom :
+     -> Lightweight JavaScript representation of the Real DOM.
+     -> When the state or props of a component change, React creates a new Virtual DOM tree, compares it with the previous Virtual DOM,
+and updates only the changed parts in the Real DOM.
+    ->  This improves application performance by reducing expensive DOM manipulations.
+
+2. Reconciliation :
+    -> Reconciliation is the process React uses to compare the old Virtual DOM with the new Virtual DOM and determine the minimum number of changes required to update the Real DOM.
+    -> using Diffing Algorithm during this process.
+
+3. React Component Life cycle:
+  “React lifecycle methods are the different phases a component goes through—mounting, updating, and unmounting. In modern React, these are handled using the useEffect hook instead of class lifecycle methods.”
+   -> mounting  - Components are created and inserted into DOM.
+   -> Updating - DOM will be updated when state or props changed 
+   -> unmounting - components are removed from dom 
+
+4. How do you optimize React performance? 
+  - I optimize React performance by preventing unnecessary re-renders, memoizing components, optimizing state updates, and using techniques like lazy loading and virtualization.
+  - “I first identify performance bottlenecks using React DevTools, then optimize using memoization (React.memo, useMemo, useCallback), reduce unnecessary re-renders, apply code-splitting, and use virtualization for large datasets.” 
+
+Key Techniques
+1. Avoid Unnecessary Re-renders
+
+👉 Use:
+
+React.memo → for components
+useMemo → for values
+useCallback → for functions
+const MyComponent = React.memo(({ value }) => {
+  return <div>{value}</div>;
+});
+2. Use Proper State Management
+
+👉 Keep state:
+
+Minimal
+Close to where it's used
+
+❌ Bad: Global everything
+✅ Good: Localized state
+
+3. Optimize useEffect
+
+👉 Avoid:
+
+Missing dependencies
+Infinite loops
+useEffect(() => {
+  fetchData();
+}, []); // correct
+4. Code Splitting (Lazy Loading)
+
+👉 Load components only when needed
+
+const LazyComponent = React.lazy(() => import("./LazyComponent"));
+5. Use List Optimization (Keys)
+
+👉 Always use unique keys
+
+items.map(item => <Item key={item.id} />)
+6. Virtualization (Important for Large Lists)
+
+👉 Render only visible items
+
+Libraries:
+
+react-window
+react-virtualized
+7. Debouncing & Throttling
+
+👉 Prevent too many API calls
+
+Example:
+
+Search input optimization
+8. Avoid Inline Functions & Objects
+
+❌ Causes re-render every time
+
+<button onClick={() => doSomething()} />
+
+✅ Use useCallback
+
+9. Use Production Build
+
+👉 Production build is faster than development
+
+npm run build
+10. Optimize Images & Assets
+Compress images
+Use modern formats (WebP)
+Lazy load images
+🧠 Real-Life Example
+
+👉 E-commerce app
+
+Product list → Virtualization
+Filters → useMemo
+Add to cart → optimized state
+Images → lazy loading
+
+5. Code splitting and Lazy Loading :
+   - Code Splitting breaks your app into smaller bundles, and Lazy Loading loads those bundles only when needed.
+   Why?
+Large bundle = slow initial load 🐢
+Smaller chunks = faster load ⚡
+
+Example for code splitting :
+const Home = () => import("./Home");
+const About = () => import("./About");
+
+Example for Lazy loading : 
+import React, { Suspense } from "react";
+
+const About = React.lazy(() => import("./About"));
+
+function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <About />
+    </Suspense>
+  );
+}
+
+Benefits
+⚡ Faster page load
+📉 Reduced bundle size
+📱 Better performance on slow networks
+😎 Improved user experience
+
+When to Use
+
+👉 Use for:
+
+Large applications
+Route-based splitting
+Heavy components
+
+👉 Avoid for:
+
+Very small apps

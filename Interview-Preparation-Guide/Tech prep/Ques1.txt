@@ -1,0 +1,55 @@
+v8 Engine :
+   - V8 engine is Google's open-source JavaScript and WebAssembly engine.
+   -  reads, compiles, and executes JavaScript code at high speed.
+   -  It was originally developed for the Google  Chrome browser, but it's also used by Node.js to run JavaScript outside the browser.
+
+How V8 works (Instead of interpreting JavaScript line by line, V8 uses Just-In-Time (JIT) compilation) :
+
+JavaScript Code
+       ↓
+    Parser
+       ↓
+Abstract Syntax Tree (AST)
+       ↓
+Ignition → Bytecode
+       ↓
+Execution
+       ↓
+TurboFan (optimizes frequently used code)
+       ↓
+Machine Code (CPU executes directly)
+
+
+Parse – Reads your JavaScript code and converts it into an Abstract Syntax Tree (AST).
+Generate bytecode – Converts the AST into bytecode using V8's interpreter (Ignition).
+Execute bytecode – Starts running the program immediately.
+Optimize – If V8 notices that certain functions are called frequently ("hot" code), it recompiles them into highly optimized machine code using its optimizing compiler (TurboFan).
+De-optimize if needed – If assumptions made during optimization become invalid (for example, variable types change unexpectedly), V8 falls back to a safer version of the code.
+
+-----------------------------------------------------------------------
+
+How Does JS execute inside  different browser ?
+  - Every browser has its own JavaScript engine. 
+ - The browser itself doesn't execute JavaScript directly—it hands the JavaScript code to its JavaScript engine, which parses, compiles, and executes it.
+  - Although the engines are different, they all implement the ECMAScript standard, so the same JavaScript code usually behaves the same across browsers.
+1.Downloads the HTML.
+2.Parses the HTML.
+3.Stops HTML parsing when it reaches the <script> (unless it's defer or async).
+4.Sends the JavaScript code to the JavaScript engine.
+5.The engine executes the code.
+6.The browser resumes parsing the HTML.
+-------------------------------------------------------------------------------
+HOF (Higher Order Function) :
+  - A Higher-Order Function is a function that either Takes one or more functions as arguments, or Returns a function.
+  - Belongs to JS Concepts
+  - EG:  map(), filter(),reduce()
+HOC(Higher Order Component) :
+ - A Higher-Order Component is a function that Takes a component as input or Returns a new component with additional behavior.
+ - React pattern
+ - EG : withLoading 
+In modern React , HOC is replaced by custom Hooks
+Adv :
+   - Reusable Logic
+   - Avoid Duplication
+   - write cleaner code 
+-----------------------------------------------------------------------------------------------

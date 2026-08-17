@@ -1,0 +1,356 @@
+1.Difference between inline and block elements in html :
+BLOCK :
+ - Always start on a new line
+ - Take up the full width available (by default)
+ - Can contain inline elements and other block elements
+INLINE : 
+ - Do not start on a new line
+ - Only take up as much width as needed
+ - Typically contain text or other inline elements
+ - Cannot contain block elements 
+
+2. What is semantic HTML? Why important?
+ - means using HTML elements that clearly describe their meaning and purpose in the webpage structure.
+ - Instead of using generic tags like <div> and <span>
+Why semantic important :
+   -  Better Readability & Maintainability - > Code becomes easier to understand
+   - Improves Accessibility -> Screen readers (for visually impaired users) understand semantic tags better
+   - SEO (Search Engine Optimization) - Search engines like Google understand your content better
+   - Easier Styling & Debugging - You can target elements directly in CSS
+
+3. What is the difference between HTML and HTML5?
+  - HTML5 is the latest version of HTML with new semantic elements like <article>, <section>
+  -  Supports multimedia (<audio>, <video>) without plugins
+  - Provides APIs like Local Storage, Geolocation, Canvas
+
+4.localStorage → persists even after browser close
+sessionStorage → cleared when tab closes
+
+5.CSS box model :
+  It consists of Content , Padding ,Border ,Margin
+
+6. display: none → removes element from layout
+visibility: hidden → hides but keeps space
+
+7. Flex - layout model for aligning items in 1D (row or column).
+   Grid - 2D layout system (rows + columns).
+   Use Flexbox for components, Grid for page layout.
+
+8. How to make a website responsive?
+  - Use Flexbox/Grid
+  - Use media queries
+ -  Avoid fixed widths
+ -  Use responsive units like em,rem
+
+9. z - index :
+   - controls the vertical stacking order of elements (which appears on top).
+   -  Elements with a higher z-index value appear in front of lower ones.
+  Stacking Context : 
+   - A stacking context is like a separate layer/group where z-index works independently.
+
+10. How do you handle cross-browser issues?
+  - “I ensure cross-browser compatibility by using standard code, testing across browsers,
+adding fallbacks, and using tools like Autoprefixer and polyfills to handle unsupported features.”
+
+11. VAR, LET,CONST
+
+ var : hoisted + initialized = undefined
+  -  Function scoped
+  - Can be re-declared and updated
+  - Gets hoisted and initialized with undefined 
+Let :  hoisted + initialized (available in TDZ)= throws reference err
+  - Block scoped ({ })
+  - Can be updated, but NOT re-declared in same scope
+  - Hoisted but in Temporal Dead Zone (TDZ)
+Const : hoisted + initialized (available in TDZ)= throws reference err
+ - Block scoped
+ - Cannot be updated or re-declared
+ - Must be initialized at declaration
+ - Hoisted but in Temporal Dead Zone (TDZ)
+
+    
+12 . Temporal Dead Zone :
+  The TDZ is the time between:
+          -  When a variable is hoisted And when it is initialized
+    - During this time, accessing the variable throws an error
+
+13. Hoisting :
+  Hoisting is JavaScript’s default behavior where declarations are moved to the top of their scope.
+  -  var : hoisted + initialized = undefined
+  - let & Const : hoisted + initialized (available in TDZ) = throws reference err
+
+14. this Keyword :
+  - 'this' refers to the object that is currently executing the function.
+  - Its value based on how that function is called , not where its defined
+
+15. call() :
+     Calls function immediately.
+     pass args one by one 
+  Eg :
+    function greet(city) {
+        console.log(this.name + " from " + city);
+    }
+
+    const user = { name: "Aravind" };
+
+    greet.call(user, "Salem");
+
+   apply() :
+    - same as call
+     - args passed as array
+    Eg:  greet.apply(user, ["Chennai"]);
+
+  bind() :
+   - Doesn't call immediately
+   - Returns a new function
+  Eg : 
+   const fn = greet.bind(user, "Bangalore");
+    fn();
+16 . Closures :
+      When a function remebers variable from its lexical scope even after execution of outer                function 
+      Eg:
+       function outer() {
+          let count = 0;
+            return function inner() {
+             count++;
+           console.log(count);
+          };
+       }
+
+     const fn = outer();
+    fn();
+    fn();
+
+17. promise :
+     promise is an object that is a result of async operation (either success or failure).
+   Promise States :
+   - pending - initial state
+   - fulfilled - success(resolve)
+   - rejected - failure(reject)
+  Promise Methods :
+   -> 1. Promise.all():
+        - Wait for all promises to successed
+        - If one fails → entire thing fails
+    Eg :
+const p1 = Promise.resolve("User Data");
+const p2 = Promise.resolve("Posts Data");
+const p3 = Promise.resolve("Comments Data");
+
+Promise.all([p1, p2, p3])
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+O/P : ["User Data", "Posts Data", "Comments Data"]
+
+  ->2. Promise.race() :
+     - Returns the FIRST completed promise
+     - It may be (success OR failure)
+   Eg:
+  const p1 = new Promise((resolve) =>
+  setTimeout(() => resolve("Fast API"), 1000)
+);
+
+const p2 = new Promise((resolve) =>
+  setTimeout(() => resolve("Slow API"), 3000)
+);
+
+Promise.race([p1, p2])
+  .then((result) => console.log(result));
+
+O/P : Fast API
+
+->3. Promise.allSetteled() :
+   - Waits for ALL promises
+   - Doesn’t fail even if some reject.
+Eg : 
+const p1 = Promise.resolve("User API");
+const p2 = Promise.reject("Post API Failed");
+const p3 = Promise.resolve("Comment API");
+
+Promise.allSettled([p1, p2, p3])
+  .then((result) => console.log(result));
+O/P :
+ [
+  { status: "fulfilled", value: "User API" },
+
+  { status: "rejected", reason: "Post API Failed" },
+
+  { status: "fulfilled", value: "Comment API" }
+]
+->4. Promise.any() :
+    - Returns FIRST SUCCESSFUL promise
+    - Ignores rejected ones.
+Eg :
+const p1 = Promise.reject("Server 1 Failed");
+
+const p2 = new Promise((resolve) =>
+  setTimeout(() => resolve("Server 2 Success"), 2000)
+);
+
+const p3 = Promise.reject("Server 3 Failed");
+
+Promise.any([p1, p2, p3])
+  .then((result) => console.log(result))
+  .catch((error) => console.log(error));
+
+O/P : Server 2 Success
+
+Promise                                                         vs                        async/await 
+ 
+Promise has 3 states - resolved, rejected and pending.                      It does not have any states. It returns a promise either                                                                                    resolved or rejected.
+Error handling is done using .then() and .catch() methods.                  Error handling is done using .try() and .catch() methods.
+
+Error handling is done using .try() and .catch() methods.                   Using Async/Await makes it easier to read and understand the                                                                                 flow of the program as compared to promise chains. 
+
+18. Debouncing &  Throttling:
+     A function that delays execution until user stops triggered event.
+   Eg : User typing searchbox
+        without Debouncing - API called every key stroke 
+        with Debouncing - API called only once
+   function debounce(fn,delay){
+        let timer;
+       return function(...args){
+        clearTimeout(timer);
+          timer = setTimeout(()=>{
+            fn.apply(this,args);
+          },delay)
+         }
+     }
+  const handleSearch = debounce((value)=>{
+     console.log(value)
+  },1000)
+
+Throttling :
+    A function called at most once in a fixed time interval
+   Eg : 
+      User scrolls continously 
+      You want function every 1 second only
+
+
+
+19. EventLoop :
+    -> One of the most important concept in js .
+    -> Its a single threaded , it can execute only one task at a time.
+    -> Event loop helps to handle async operations like API Calling, Timers and events without blocking the main thread.
+
+Main Components in Event loop:
+    Call Stack
+     |
+    Web API
+     |
+    Micro Task Queue()
+     |
+    Macro Task Queue
+     |
+   Event Loop
+
+  Eg : Why we need Event loop :
+   
+    log("A");
+    log("B");
+setTimeout(()=>{log("Hello")},2000);
+    
+
+   o/p:
+    A
+    B
+    Hello
+Even though the timer is written before "B", it runs later.
+This happens because of the Event Loop mechanism.
+
+20. Currying in js :
+     Transforming a function with multiple arguments into multiple functions with  one argument each.
+     function add(a){
+          return function(b){
+          return function(c){
+          return a + b + c;
+        }
+       }
+      }
+
+console.log(add(2)(3)(4));
+
+21.Prototype in js :
+  -> Its an obj that inherits properties and methods from other objects.
+Eg :
+const person = {
+  greet() {
+    console.log("Hello");
+  }
+};
+
+const user = Object.create(person);
+
+user.greet(); // o/p: Hello
+ - > user object does NOT have greet(). so it inherits from person
+
+Prototype Chaining :
+  -> When js can't find  properties in a object , then it searches in its prototype.
+ If not found again, then moves to upward.
+Eg : const animal = {                             dog
+         eat : true                                |
+}                                                animal
+const dog = Object.create(animal);  
+ dog.barks = true                                   |
+console.log(dog.eat) // true                     prototype
+                                                    | null
+
+22. Lexical Scope :
+ -> Lexical scope means a function can access variables from its parent scope based on where the function is defined in the source code.
+
+23. Polyfills :
+  -> Custom implementation of js methods because if its not supports to browser
+Eg : debounce code 
+
+24. Virtual Dom:
+   state changes 
+       |
+   Creates a new Virtual DOM
+        |
+   Compare with old virtual DOM
+         |
+   Updates the changes elements in real DOM
+
+25. Lazy Loading :
+  -> Loading resources only when its needed instead of loading all resources initially.
+  EG: 
+   - Images are loading when it comes to viewport
+   - Components are loading when user navigates
+  Eg : 
+import React, { lazy, Suspense } from "react";
+
+const Home = lazy(() => import("./Home"));
+
+function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Home />
+    </Suspense>
+  );
+}
+pros : improves performance , Reduces bundle size 
+
+26.How to reduce JavaScript bundle size?
+   - Code splitting (use dynamic imports)
+   -  Tree shaking (remove unused code)
+  -  Minification (remove whitespaces and comments)
+  -  Compression (GZIP(older method) / Brotli(newer method) )
+  -  use modern builds (Import/export instead of require())
+
+Optimization flow:
+Write Code
+↓
+Tree Shaking
+↓
+Code Splitting
+↓
+Minification
+↓
+Compression
+↓
+Optimized Bundle
+
+
