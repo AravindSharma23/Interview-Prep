@@ -1,0 +1,69 @@
+1. Why TypeScript instead of JavaScript?
+    “TypeScript is a superset of JavaScript that adds static typing, which helps catch errors at compile time, improves code readability,
+and makes large-scale applications easier to maintain.”
+
+  Key Points to Add:
+ - Early error detection
+ - Better IDE support (autocomplete, refactoring)
+ - Improved code scalability
+ - Safer code with types
+---------------------------------------------------------------
+
+2. type vs interface :
+  - In TypeScript, both interface and type are used to describe the shape of data.
+Interface - mainly used to describing the shape of an object.
+ Eg:
+  interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+Usage :
+const user: User = {
+  id: 1,
+  name: "Aravind",
+  email: "aravind@example.com",
+};
+you can extend interface - 
+interface User {
+  id: number;
+  name: string;
+}
+
+interface AdminUser extends User {
+  role: string;
+}
+Type - can also describe objects.And also describe  unions + primitives + tuples + more complex combinations
+Eg :
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
+ - But type can do more than interfaces.
+Union types :
+type Status = "loading" | "success" | "error";
+
+const status: Status = "success";
+
+Primitive Alias :
+type UserId = number;
+
+const id: UserId = 101;
+
+Arrays :
+type Users = User[];
+
+const users: Users = [];
+
+Intersection :
+type User = {
+  name: string;
+};
+
+type Employee = User & {
+  employeeId: number;
+};
+
+---------------------------------------------------------------
+3.
