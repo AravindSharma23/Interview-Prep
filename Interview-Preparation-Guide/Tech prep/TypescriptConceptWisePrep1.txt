@@ -64,6 +64,82 @@ type User = {
 type Employee = User & {
   employeeId: number;
 };
-
+| Feature     | Interface        | Type                              |
+| ----------- | ---------------- | --------------------------------- |
+| Extending   | `extends`        | `&` (intersection)                |
+| Flexibility | Less             | More                              |
+| Use case    | Objects, classes | Unions, primitives, complex types |
 ---------------------------------------------------------------
-3.
+3. Generics :
+   - “Generics allow us to create reusable components or functions that work with multiple data types while maintaining type safety.”
+
+  function identity<T>(value: T): T {
+  return value;
+}
+
+4. Optional Chaining :
+  - “Optional chaining (?.) allows safe access to nested object properties without throwing errors if a value is null or undefined.”
+ Eg :  user?.address?.city
+
+5. Nullish coalescing ?? :
+  - when you want to provide a default value if something is null or undefined.
+ Eg :  const value = login == 'success' ?? 'Go and Login'
+
+6.  any vs unknown :
+   - “any disables type checking completely, while unknown is a safer alternative that requires type checking before usage.”
+| Feature        | any    | unknown          |
+| -------------- | ------ | ---------------- |
+| Type safety    | ❌ None | ✅ Safe           |
+| Usage          | Direct | Needs type check |
+| Recommendation | Avoid  | Prefer           |
+
+Eg : 
+ let value: unknown = "hello";
+
+if (typeof value === "string") {
+  console.log(value.toUpperCase()); // safe
+}
+
+6 . What is Type Inference?
+
+👉 TypeScript automatically determines types without explicit annotation.
+
+7 . What is Union Type?
+  - Variable can hold multiple types.
+  Eg :     let value: string | number;
+
+8 . What is Intersection Type?
+   -  Combines multiple types into one.
+   Eg  :
+      type A = { name: string };
+type B = { age: number };
+
+type C = A & B;
+
+9. Type Assertion :
+ - use the as keyword to tell TypeScript to treat a value as a particular type.
+Eg :  let value = "hello" as string;
+
+10. enum :
+  - Enum is a way to define a set of named constants. It makes your code more readable .
+ enum Direction {
+  Up, // 0
+  Down, // 1
+  Left, // 2
+  Right // 3
+}
+Enum Eg :
+enum Status {
+  Loading = "loading",
+  Success = "success",
+  Error = "error",
+}
+
+let status: Status = Status.Loading; 
+
+Union Eg:
+type Status = "loading" | "success" | "error";
+
+let status: Status = "loading";
+    - enum creates a JavaScript object at runtime, while a union type exists only for TypeScript's type checking.
+
