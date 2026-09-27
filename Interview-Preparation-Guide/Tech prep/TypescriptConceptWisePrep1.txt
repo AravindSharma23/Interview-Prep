@@ -41,7 +41,7 @@ type User = {
   email: string;
 };
  - But type can do more than interfaces.
-Union types :
+Union types : | means OR
 type Status = "loading" | "success" | "error";
 
 const status: Status = "success";
@@ -56,7 +56,7 @@ type Users = User[];
 
 const users: Users = [];
 
-Intersection :
+Intersection : & means AND 
 type User = {
   name: string;
 };
