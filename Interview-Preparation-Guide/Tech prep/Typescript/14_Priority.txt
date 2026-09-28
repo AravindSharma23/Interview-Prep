@@ -1,0 +1,79 @@
+🔥 Priority 14 — Null Safety
+114. What is strictNullChecks?
+
+It makes null and undefined distinct types that must be handled explicitly.
+
+Without strict null checking, nullable values can be easier to misuse.
+
+With it:
+
+let name: string = null; // Error
+
+unless null is included:
+
+let name: string | null = null;
+
+🧠 Easy Memory:
+
+strictNullChecks forces you to handle null explicitly.
+
+115. Difference between null and undefined?
+
+Both represent absence of a value but are commonly used differently.
+
+undefined often means a value hasn't been assigned or a property doesn't exist.
+null is commonly used intentionally to represent no value.
+let a: undefined;
+let b: null = null;
+
+🧠 Easy Memory:
+
+undefined = missing/not assigned; null = intentionally empty.
+
+116. How do optional chaining and nullish coalescing work?
+
+Optional chaining:
+
+user?.address?.city
+
+Safely accesses nested properties if earlier values aren't nullish.
+
+Nullish coalescing:
+
+const value = input ?? "default";
+
+Uses the default only when input is null or undefined.
+
+🧠 Easy Memory:
+
+?. = safely access; ?? = fallback for null/undefined.
+
+117. Difference between || and ???
+
+|| uses the fallback for any falsy value.
+
+0 || 10 // 10
+
+?? only falls back for null or undefined.
+
+0 ?? 10 // 0
+
+🧠 Easy Memory:
+
+|| checks falsy; ?? checks nullish.
+
+118. How does TypeScript handle nullable values?
+
+With strict null checking, you explicitly represent nullable values:
+
+let user: User | null = null;
+
+Then narrow before accessing:
+
+if (user) {
+  console.log(user.name);
+}
+
+🧠 Easy Memory:
+
+Model null explicitly and narrow before using the value.
