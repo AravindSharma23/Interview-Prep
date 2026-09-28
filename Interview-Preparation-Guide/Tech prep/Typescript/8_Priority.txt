@@ -1,0 +1,91 @@
+🔥 Priority 8 — keyof, typeof, Indexed Access
+73. What is keyof?
+
+keyof produces a union of the keys of a type.
+
+type User = {
+  id: number;
+  name: string;
+};
+
+type UserKeys = keyof User;
+
+Result:
+
+"id" | "name"
+
+🧠 Easy Memory:
+
+keyof = give me the keys.
+
+74. What is typeof in TypeScript?
+
+In a type position, typeof gets the type of a value.
+
+const user = {
+  id: 1,
+  name: "Aravind"
+};
+
+type User = typeof user;
+
+🧠 Easy Memory:
+
+TypeScript typeof = get a type from an existing value.
+
+75. Difference between JavaScript typeof and TypeScript typeof?
+
+JavaScript:
+
+typeof value
+
+is an expression executed at runtime.
+
+TypeScript:
+
+type User = typeof user;
+
+is used at compile time to obtain the type of a value.
+
+🧠 Easy Memory:
+
+JS typeof → runtime value check; TS typeof → type extraction.
+
+76. What is indexed access type?
+
+It retrieves a property's type from another type.
+
+type User = {
+  id: number;
+  name: string;
+};
+
+type UserName = User["name"];
+
+Result:
+
+string
+
+🧠 Easy Memory:
+
+T["key"] = get the type of that property.
+
+77. What is keyof typeof?
+
+It combines typeof and keyof.
+
+const roles = {
+  admin: "ADMIN",
+  user: "USER"
+};
+
+type Role = keyof typeof roles;
+
+Result:
+
+"admin" | "user"
+
+🧠 Easy Memory:
+
+keyof typeof object = union of an object's keys.
+
