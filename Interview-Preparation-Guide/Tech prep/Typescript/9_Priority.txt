@@ -1,0 +1,122 @@
+🔥 Priority 9 — Functions
+78. How do you type a function?
+function add(a: number, b: number): number {
+  return a + b;
+}
+
+🧠 Easy Memory:
+
+Type parameters and return values explicitly when needed.
+
+79. How do you type function parameters?
+function greet(name: string, age: number) {
+  console.log(name, age);
+}
+
+🧠 Easy Memory:
+
+Parameter type goes after the parameter name.
+
+80. How do you specify return types?
+
+Put the return type after ).
+
+function add(a: number, b: number): number {
+  return a + b;
+}
+
+🧠 Easy Memory:
+
+(...): ReturnType.
+
+81. Optional parameters?
+
+Use ?.
+
+function greet(name: string, age?: number) {
+  console.log(name, age);
+}
+
+🧠 Easy Memory:
+
+age? = caller doesn't have to provide age.
+
+82. Default parameters?
+function greet(name: string = "Guest") {
+  console.log(name);
+}
+
+🧠 Easy Memory:
+
+Default parameter = fallback value.
+
+83. Rest parameters?
+
+Rest parameters collect multiple arguments into an array.
+
+function sum(...numbers: number[]): number {
+  return numbers.reduce((a, b) => a + b, 0);
+}
+
+🧠 Easy Memory:
+
+... collects multiple arguments.
+
+84. Function overloads?
+
+Overloads allow a function to have multiple call signatures.
+
+function format(value: string): string;
+function format(value: number): string;
+
+function format(value: string | number): string {
+  return String(value);
+}
+
+🧠 Easy Memory:
+
+Overloads = multiple valid ways to call one function.
+
+85. Difference between overloads and union parameters?
+
+Union:
+
+function format(value: string | number) {}
+
+Overloads:
+
+function format(value: string): string;
+function format(value: number): string;
+
+Overloads can provide more precise call signatures and different return types for different inputs.
+
+🧠 Easy Memory:
+
+Union combines input types; overloads describe multiple specific call signatures.
+
+86. What is a callback type?
+
+A callback type describes a function passed to another function.
+
+function process(
+  callback: (value: string) => void
+) {
+  callback("hello");
+}
+
+🧠 Easy Memory:
+
+Callback type = type of a function passed as an argument.
+
+87. How do you type an async function?
+
+Async functions normally return a Promise.
+
+async function getUser(id: number): Promise<User> {
+  // ...
+}
+
+🧠 Easy Memory:
+
+async function returning User → Promise<User>.
+
