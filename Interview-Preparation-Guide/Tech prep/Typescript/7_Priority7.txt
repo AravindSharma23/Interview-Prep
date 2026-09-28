@@ -1,0 +1,205 @@
+🔥 Priority 7 — Utility Types
+60. What is Partial<T>?
+
+Makes every property optional.
+
+interface User {
+  id: number;
+  name: string;
+}
+
+type UpdateUser = Partial<User>;
+
+Equivalent to:
+
+{
+  id?: number;
+  name?: string;
+}
+
+🧠 Easy Memory:
+
+Partial = everything optional.
+
+61. What is Required<T>?
+
+Makes all optional properties required.
+
+interface User {
+  id: number;
+  name?: string;
+}
+
+type RequiredUser = Required<User>;
+
+🧠 Easy Memory:
+
+Required = everything mandatory.
+
+62. What is Readonly<T>?
+
+Makes all properties readonly.
+
+type ReadonlyUser = Readonly<User>;
+
+🧠 Easy Memory:
+
+Readonly = cannot reassign properties.
+
+63. What is Pick<T, K>?
+
+Creates a type containing only selected properties.
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+type UserPreview = Pick<User, "id" | "name">;
+
+🧠 Easy Memory:
+
+Pick = choose properties.
+
+64. What is Omit<T, K>?
+
+Creates a type excluding selected properties.
+
+type UserWithoutEmail = Omit<User, "email">;
+
+🧠 Easy Memory:
+
+Omit = remove properties.
+
+65. What is Record<K, T>?
+
+Creates an object type whose keys are K and values are T.
+
+type Roles = "admin" | "user";
+
+type Permissions = Record<Roles, string[]>;
+
+Equivalent conceptually to:
+
+{
+  admin: string[];
+  user: string[];
+}
+
+🧠 Easy Memory:
+
+Record = define a map of keys → values.
+
+66. What is Exclude<T, U>?
+
+Removes members from a union that are assignable to U.
+
+type Status = "success" | "error" | "loading";
+
+type FinalStatus = Exclude<Status, "loading">;
+
+Result:
+
+"success" | "error"
+
+🧠 Easy Memory:
+
+Exclude = remove from union.
+
+67. What is Extract<T, U>?
+
+Keeps only members of T that are assignable to U.
+
+type A = "a" | "b" | "c";
+type B = "a" | "c";
+
+type Result = Extract<A, B>;
+
+Result:
+
+"a" | "c"
+
+🧠 Easy Memory:
+
+Extract = keep matching union members.
+
+68. What is NonNullable<T>?
+
+Removes null and undefined.
+
+type Value = string | null | undefined;
+
+type Result = NonNullable<Value>;
+
+Result:
+
+string
+
+🧠 Easy Memory:
+
+NonNullable = remove null and undefined.
+
+69. What is ReturnType<T>?
+
+It extracts the return type of a function.
+
+function getUser() {
+  return {
+    id: 1,
+    name: "Aravind"
+  };
+}
+
+type User = ReturnType<typeof getUser>;
+
+🧠 Easy Memory:
+
+ReturnType = what does this function return?
+
+70. What is Parameters<T>?
+
+It extracts a function's parameter types as a tuple.
+
+function add(a: number, b: string) {}
+
+type Params = Parameters<typeof add>;
+
+Result:
+
+[number, string]
+
+🧠 Easy Memory:
+
+Parameters = function arguments as a tuple.
+
+71. What is Awaited<T>?
+
+It extracts the resolved value of a Promise.
+
+type Result = Awaited<Promise<string>>;
+
+Result:
+
+string
+
+Useful with nested promises as well.
+
+🧠 Easy Memory:
+
+Awaited = unwrap Promise result.
+
+72. What is InstanceType<T>?
+
+It extracts the instance type created by a constructor.
+
+class User {
+  name = "Aravind";
+}
+
+type UserInstance = InstanceType<typeof User>;
+
+🧠 Easy Memory:
+
+InstanceType = type of an object created by a class constructor.
+
