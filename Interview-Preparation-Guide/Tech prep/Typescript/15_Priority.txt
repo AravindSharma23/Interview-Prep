@@ -1,0 +1,1077 @@
+🔥 Priority 15 — TypeScript + React
+119. How do you type React component props?
+interface Props {
+  name: string;
+  age: number;
+}
+
+function User({ name, age }: Props) {
+  return <div>{name}</div>;
+}
+
+🧠 Easy Memory:
+
+Define a props type and destructure with that type.
+
+120. type vs interface for React props?
+
+Both work.
+
+type Props = {
+  name: string;
+};
+
+or:
+
+interface Props {
+  name: string;
+}
+
+The choice is generally a style/design decision based on the team's conventions and whether interface-specific features are useful.
+
+🧠 Easy Memory:
+
+React accepts both; consistency matters more than the choice.
+
+121. How do you type children?
+
+A common approach is:
+
+interface Props {
+  children: React.ReactNode;
+}
+
+Then:
+
+function Card({ children }: Props) {
+  return <div>{children}</div>;
+}
+
+🧠 Easy Memory:
+
+ReactNode = things React can render as children.
+
+122. ReactNode vs ReactElement?
+
+ReactNode is broader. It includes things React can render such as:
+
+Elements
+Strings
+Numbers
+Fragments
+null
+Arrays of renderable nodes
+
+ReactElement specifically represents a React element object.
+
+🧠 Easy Memory:
+
+ReactNode = anything renderable; ReactElement = React element.
+
+123. How do you type event handlers?
+
+For example:
+
+function handleChange(
+  event: React.ChangeEvent<HTMLInputElement>
+) {
+  console.log(event.target.value);
+}
+
+Button:
+
+function handleClick(
+  event: React.MouseEvent<HTMLButtonElement>
+) {
+  console.log("clicked");
+}
+
+🧠 Easy Memory:
+
+Use React's event types with the corresponding HTML element.
+
+124. How do you type useState?
+
+TypeScript often infers the type:
+
+const [count, setCount] = useState(0);
+
+For more complex or nullable state:
+
+const [user, setUser] = useState<User | null>(null);
+
+🧠 Easy Memory:
+
+useState usually infers; explicitly type complex/nullable state.
+
+125. How do you type useRef?
+
+For a DOM element:
+
+const inputRef = useRef<HTMLInputElement | null>(null);
+
+Then:
+
+inputRef.current?.focus();
+
+For a mutable value:
+
+const countRef = useRef<number>(0);
+
+🧠 Easy Memory:
+
+useRef<Element | null>(null) is the common DOM pattern.
+
+126. How do you type useReducer?
+
+Define state and action types.
+
+type State = {
+  count: number;
+};
+
+type Action =
+  | { type: "increment" }
+  | { type: "decrement" };
+
+function reducer(
+  state: State,
+  action: Action
+): State {
+  switch (action.type) {
+    case "increment":
+      return { count: state.count + 1 };
+
+    case "decrement":
+      return { count: state.count - 1 };
+  }
+}
+
+🧠 Easy Memory:
+
+Type State + discriminated-union Action.
+
+127. How do you type useContext?
+
+Define the context type:
+
+interface AuthContext {
+  user: User | null;
+  login: () => void;
+}
+
+Create context:
+
+const AuthContext =
+  createContext<AuthContext | undefined>(undefined);
+
+🧠 Easy Memory:
+
+Context type describes the shared state and functions.
+
+128. How do you type custom hooks?
+
+Define the input and output types.
+
+function useUser(id: number): User | null {
+  // ...
+  return null;
+}
+
+Or return a structured object:
+
+function useAuth(): {
+  user: User | null;
+  logout: () => void;
+} {
+  // ...
+}
+
+🧠 Easy Memory:
+
+Type custom hooks like normal functions: inputs + return value.
+
+129. How do you type API responses?
+
+Create reusable generic types.
+
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
+
+Then:
+
+type UserResponse = ApiResponse<User>;
+
+🧠 Easy Memory:
+
+Generic API response = one structure, many data types.
+
+130. How do you type reusable components?
+
+Define generic props when the component should work with different data.
+
+interface ListProps<T> {
+  items: T[];
+  renderItem: (item: T) => React.ReactNode;
+}
+
+function List<T>({
+  items,
+  renderItem
+}: ListProps<T>) {
+  return (
+    <>
+      {items.map(renderItem)}
+    </>
+  );
+}
+
+🧠 Easy Memory:
+
+Generic components let reusable UI preserve the item's type.
+
+🔥 Priority 16 — TypeScript + API
+131. How do you define an API response type?
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
+
+Usage:
+
+type UserResponse = ApiResponse<User>;
+
+🧠 Easy Memory:
+
+ApiResponse<T> gives one reusable API contract.
+
+132. How do you type API errors?
+
+Create an error structure:
+
+interface ApiError {
+  message: string;
+  code?: string;
+  status?: number;
+}
+
+With catch, remember that caught values are not necessarily your custom error type.
+
+try {
+  // request
+} catch (error: unknown) {
+  if (error instanceof Error) {
+    console.log(error.message);
+  }
+}
+
+🧠 Easy Memory:
+
+Treat caught/API errors as unknown until validated.
+
+133. How do you type Axios responses?
+
+With Axios generics:
+
+const response =
+  await axios.get<User[]>("/api/users");
+
+Now:
+
+response.data
+
+is typed as:
+
+User[]
+
+You can also use a generic API wrapper:
+
+const response =
+  await axios.get<ApiResponse<User[]>>("/api/users");
+
+🧠 Easy Memory:
+
+Pass the expected response type to Axios's generic.
+
+134. How do you type fetch() responses?
+
+fetch() doesn't automatically know your API's response shape.
+
+You can define the expected type:
+
+const response = await fetch("/api/users");
+
+const data =
+  await response.json() as User[];
+
+But this is only an assertion; it doesn't validate the actual server response.
+
+For safer applications, validate unknown data at runtime.
+
+🧠 Easy Memory:
+
+fetch() doesn't magically validate JSON; TypeScript needs a type plus runtime validation when safety matters.
+
+135. How do you safely handle unknown API data?
+
+Treat the API response as unknown and validate it before using it.
+
+Conceptually:
+
+const data: unknown = await response.json();
+
+if (isUser(data)) {
+  console.log(data.name);
+}
+
+Where:
+
+function isUser(value: unknown): value is User {
+  // runtime checks
+  return true;
+}
+
+🧠 Easy Memory:
+
+External data is untrusted until runtime validation proves its shape.
+
+136. How do you type pagination?
+interface PaginatedResponse<T> {
+  data: T[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+Usage:
+
+type UserResponse = PaginatedResponse<User>;
+
+🧠 Easy Memory:
+
+Pagination = generic data array + pagination metadata.
+
+137. How do you type API request payloads?
+
+Define a specific type:
+
+interface CreateUserRequest {
+  name: string;
+  email: string;
+  age: number;
+}
+
+Then:
+
+async function createUser(
+  payload: CreateUserRequest
+) {
+  // API call
+}
+
+🧠 Easy Memory:
+
+Request body gets its own DTO/type.
+
+138. How do you avoid duplicating frontend/backend types?
+
+Common approaches include:
+
+Shared TypeScript packages
+Monorepo shared types
+Generated types from API schemas
+OpenAPI/code generation
+GraphQL generated types
+
+The goal is to establish a single source of truth where practical.
+
+🧠 Easy Memory:
+
+Share or generate contracts instead of manually maintaining duplicate types.
+
+🔥 Priority 17 — TypeScript + Next.js
+139. How does TypeScript work with Next.js?
+
+Next.js has strong built-in TypeScript support.
+
+You can type:
+
+Components
+Props
+Server Components
+Client Components
+Route parameters
+API responses
+Environment variables
+Server-side data
+
+🧠 Easy Memory:
+
+Next.js + TypeScript = typed UI, routing, data and server code.
+
+140. How do you type Server Components?
+
+Server Components are normal TypeScript/React components, so type their props normally.
+
+interface Props {
+  id: string;
+}
+
+export default async function Page({ id }: Props) {
+  // server-side logic
+  return <div>{id}</div>;
+}
+
+🧠 Easy Memory:
+
+Server Component props are typed like normal component props.
+
+141. How do you type Client Components?
+
+Use the "use client" directive and TypeScript types normally.
+
+"use client";
+
+interface Props {
+  name: string;
+}
+
+export default function User({ name }: Props) {
+  return <div>{name}</div>;
+}
+
+🧠 Easy Memory:
+
+Client Components use normal TypeScript typing plus "use client".
+
+142. How do you type route parameters?
+
+For a dynamic route, define the parameter shape expected by the framework's routing API.
+
+Conceptually:
+
+interface Props {
+  params: {
+    id: string;
+  };
+}
+
+Then:
+
+export default function Page({ params }: Props) {
+  return <div>{params.id}</div>;
+}
+
+🧠 Easy Memory:
+
+Dynamic route params are just typed object properties.
+
+143. How do you type search parameters?
+
+Define the expected query parameter shape.
+
+Conceptually:
+
+interface SearchParams {
+  search?: string;
+  page?: string;
+}
+
+Then use that shape where your Next.js route/page receives search parameters.
+
+🧠 Easy Memory:
+
+Search parameters are optional URL values, so type them accordingly.
+
+144. How do you type API route responses?
+
+Define a response type:
+
+interface UserResponse {
+  success: boolean;
+  data: User;
+}
+
+Then return data matching that contract from your route handler.
+
+For shared APIs, using generated/shared types can reduce duplication.
+
+🧠 Easy Memory:
+
+API route = typed request + typed response.
+
+145. How do you type environment variables?
+
+For custom environment variables, you can extend the environment variable type declarations.
+
+For example:
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    DATABASE_URL: string;
+    API_KEY: string;
+  }
+}
+
+For client-side environment variables, frameworks impose naming conventions and exposure rules.
+
+🧠 Easy Memory:
+
+Environment variables should have an explicit typed contract.
+
+146. Difference between NEXT_PUBLIC_* and server-only environment variables?
+
+In Next.js, variables prefixed with:
+
+NEXT_PUBLIC_
+
+are intended to be exposed to client-side code.
+
+Variables without that prefix are intended for server-side use and should be kept private.
+
+Example:
+
+DATABASE_URL=secret
+NEXT_PUBLIC_API_URL=https://example.com
+
+🧠 Easy Memory:
+
+NEXT_PUBLIC_* can reach the browser; server-only variables should stay private.
+
+147. How do you create shared types between frontend and backend?
+
+Create a shared package/folder:
+
+project/
+  frontend/
+  backend/
+  shared/
+    types/
+      user.ts
+      api.ts
+
+Example:
+
+// shared/types/user.ts
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+Both frontend and backend import the same type.
+
+For larger systems, generated types from OpenAPI/GraphQL schemas can also keep the contract synchronized.
+
+🧠 Easy Memory:
+
+Shared types create one contract between frontend and backend.
+
+⭐ Real Interview Coding Questions
+
+The attached roadmap also includes implementation-focused questions around generics, utility types, infer, and type-safe property access.
+
+Coding 1 — Generic Identity
+Question
+
+Implement:
+
+function identity<T>(value: T): T
+Answer
+function identity<T>(value: T): T {
+  return value;
+}
+
+Usage:
+
+const numberValue = identity(10);
+const stringValue = identity("hello");
+
+TypeScript preserves the original type.
+
+🧠 Memory:
+
+Generic identity = input T, output T.
+
+Coding 2 — Generic API Response
+Question
+
+Create ApiResponse<T> supporting:
+
+ApiResponse<User>
+ApiResponse<Product>
+ApiResponse<Order>
+Answer
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
+
+Usage:
+
+type UserResponse = ApiResponse<User>;
+type ProductResponse = ApiResponse<Product>;
+type OrderResponse = ApiResponse<Order>;
+
+🧠 Memory:
+
+Generic API response = reusable response wrapper.
+
+Coding 3 — Implement MyPartial<T>
+Answer
+type MyPartial<T> = {
+  [K in keyof T]?: T[K];
+};
+
+Example:
+
+interface User {
+  id: number;
+  name: string;
+}
+
+type PartialUser = MyPartial<User>;
+
+Becomes conceptually:
+
+{
+  id?: number;
+  name?: string;
+}
+
+🧠 Memory:
+
+Partial = map every key + add ?.
+
+Coding 4 — Implement MyPick<T, K>
+Answer
+type MyPick<T, K extends keyof T> = {
+  [P in K]: T[P];
+};
+
+Example:
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+type Preview = MyPick<User, "id" | "name">;
+
+🧠 Memory:
+
+Pick = map only selected keys.
+
+Coding 5 — Implement MyReadonly<T>
+Answer
+type MyReadonly<T> = {
+  readonly [K in keyof T]: T[K];
+};
+
+🧠 Memory:
+
+Readonly = map every key + add readonly.
+
+Coding 6 — Implement MyExclude<T, U>
+Answer
+type MyExclude<T, U> =
+  T extends U ? never : T;
+
+Example:
+
+type Status =
+  "success" | "error" | "loading";
+
+type Result =
+  MyExclude<Status, "loading">;
+
+Result:
+
+"success" | "error"
+
+🧠 Memory:
+
+Exclude = if T matches U, remove it with never.
+
+Coding 7 — Implement MyReturnType<T>
+Answer
+type MyReturnType<T> =
+  T extends (...args: any[]) => infer R
+    ? R
+    : never;
+
+Example:
+
+function getUser() {
+  return {
+    id: 1,
+    name: "Aravind"
+  };
+}
+
+type User = MyReturnType<typeof getUser>;
+
+🧠 Memory:
+
+ReturnType = function → infer its return value.
+
+Coding 8 — Type-safe get
+Question
+
+Given:
+
+const user = {
+  id: 1,
+  name: "Aravind",
+  age: 25
+};
+
+Allow:
+
+get(user, "name");
+
+but prevent:
+
+get(user, "xyz");
+Answer
+function get<T, K extends keyof T>(
+  obj: T,
+  key: K
+): T[K] {
+  return obj[key];
+}
+
+Usage:
+
+const name = get(user, "name");
+
+The result is inferred as:
+
+string
+
+This fails:
+
+get(user, "xyz"); // Error
+
+because "xyz" isn't part of keyof typeof user.
+
+🧠 Memory:
+
+K extends keyof T = key must belong to the object.
+
+🧠 Most Important "WHY?" Questions
+1. Why is unknown safer than any?
+
+Because unknown forces you to narrow the value before performing operations, while any disables most type checking.
+
+🧠 Memory:
+
+unknown requires proof; any requires trust.
+
+2. Why does TypeScript use structural typing?
+
+Structural typing makes TypeScript flexible and compatible with JavaScript's object-based programming model.
+
+Two objects can be compatible if their required structures match.
+
+🧠 Memory:
+
+TypeScript cares about what an object has, not what it is called.
+
+3. Why does keyof return a union?
+
+An object can have multiple possible property keys. Therefore:
+
+type User = {
+  id: number;
+  name: string;
+};
+keyof User
+
+becomes:
+
+"id" | "name"
+
+The union represents the set of valid keys.
+
+🧠 Memory:
+
+keyof = all possible keys → union.
+
+4. Why do we need generics?
+
+Generics let us create reusable functions, classes and types without sacrificing type information.
+
+🧠 Memory:
+
+Generics = reusable code + type safety.
+
+5. Why use extends in generics?
+
+To constrain a generic to types that satisfy a requirement.
+
+function getId<T extends { id: number }>(obj: T) {
+  return obj.id;
+}
+
+🧠 Memory:
+
+extends in generic = minimum requirement.
+
+6. Why does never exist?
+
+It represents impossible values and functions that don't complete normally.
+
+It is especially useful for exhaustive checks.
+
+🧠 Memory:
+
+never represents "this cannot happen."
+
+7. Why are conditional types useful?
+
+They allow types to change based on another type.
+
+type IsString<T> =
+  T extends string ? true : false;
+
+They enable powerful reusable type transformations.
+
+🧠 Memory:
+
+Conditional types = if/else at the type level.
+
+8. How does type narrowing actually work?
+
+TypeScript analyzes checks such as:
+
+typeof
+instanceof
+in
+=== 
+
+and control flow to eliminate impossible types.
+
+🧠 Memory:
+
+Narrowing = runtime evidence → more precise compile-time type.
+
+9. Why can TypeScript not validate API responses at runtime?
+
+TypeScript's types are erased from the generated JavaScript.
+
+The server sends runtime data, which TypeScript doesn't automatically validate.
+
+For example:
+
+const user = data as User;
+
+doesn't verify that data actually matches User.
+
+🧠 Memory:
+
+TypeScript checks your code, not external runtime data.
+
+10. Why are type assertions potentially dangerous?
+
+Because assertions don't perform runtime validation.
+
+const user = data as User;
+
+If data is malformed, TypeScript won't automatically detect it at runtime.
+
+🧠 Memory:
+
+Assertion ≠ validation.
+
+11. Why use satisfies instead of as in some cases?
+
+satisfies verifies that an expression conforms to a type while preserving useful inference.
+
+const config = {
+  port: 3000,
+  environment: "production"
+} satisfies Config;
+
+An assertion:
+
+const config = value as Config;
+
+mainly tells TypeScript to treat the value as that type.
+
+🧠 Memory:
+
+as says "assume"; satisfies says "check".
+
+12. Why can TypeScript allow some seemingly unsafe assignments?
+
+TypeScript is designed around JavaScript compatibility and uses structural typing, inference, assignability rules, and some intentional flexibility.
+
+It is not a formal proof system guaranteeing that every runtime operation is safe.
+
+🧠 Memory:
+
+TypeScript improves safety; it doesn't guarantee runtime correctness.
+
+13. What happens to TypeScript types at runtime?
+
+They are generally erased when TypeScript is compiled to JavaScript.
+
+For example:
+
+const age: number = 25;
+
+becomes roughly:
+
+const age = 25;
+
+The number annotation doesn't exist at runtime.
+
+🧠 Memory:
+
+Types disappear; JavaScript remains.
+
+14. Does TypeScript provide runtime type safety?
+
+No, not by itself.
+
+TypeScript provides compile-time type checking.
+
+Runtime data from APIs, users, files, databases, etc. may still be invalid.
+
+For runtime validation, you need explicit checks or a runtime validation library.
+
+🧠 Memory:
+
+TypeScript = compile-time safety, not automatic runtime validation.
+
+15. How would you validate unknown API data at runtime?
+
+Treat the data as unknown and validate its structure before using it.
+
+For example:
+
+function isUser(value: unknown): value is User {
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+
+  const user = value as Record<string, unknown>;
+
+  return (
+    typeof user.id === "number" &&
+    typeof user.name === "string"
+  );
+}
+
+Then:
+
+const data: unknown = await response.json();
+
+if (isUser(data)) {
+  console.log(data.name);
+}
+
+For larger applications, runtime schema-validation libraries can automate this pattern.
+
+🧠 Memory:
+
+External data → unknown → validate → trusted type.
+
+🎯 Final Revision Sheet
+
+For your React + TypeScript / Next.js product-company preparation, don't try to memorize 147 answers word-for-word.
+
+Memorize these mental models:
+
+TypeScript Basics
+TypeScript = JavaScript + Types
+Inference = TS figures out type
+Annotation = Developer specifies type
+Structural typing = Shape matters
+tsconfig = Compiler configuration
+strict = Stronger checking
+Type Composition
+Union        |  = OR
+Intersection &  = AND
+interface       = Object contract
+type            = Flexible type composition
+Narrowing
+typeof     → primitives
+instanceof → class/object
+in         → property existence
+is         → custom type predicate
+Special Types
+any      → disables checking
+unknown  → unknown but safe
+void     → no meaningful return
+never    → impossible/no normal completion
+null     → intentional absence
+undefined → missing/not assigned
+Generics
+<T>                    → reusable type
+<T extends X>          → constrained type
+<T, U>                 → multiple types
+ApiResponse<T>          → reusable API contract
+Utility Types
+Partial<T>        → all optional
+Required<T>       → all required
+Readonly<T>       → all readonly
+Pick<T,K>         → keep selected keys
+Omit<T,K>         → remove selected keys
+Record<K,T>       → key-value map
+Exclude<T,U>      → remove union members
+Extract<T,U>      → keep matching members
+NonNullable<T>    → remove null/undefined
+ReturnType<T>     → function return type
+Parameters<T>     → function parameters
+Awaited<T>        → unwrap Promise
+InstanceType<T>   → instance from constructor
+Type Operators
+keyof T             → keys of T
+typeof value        → type of value
+T["key"]             → property type
+keyof typeof obj    → keys of object
+Advanced Types
+Conditional type       → type-level if/else
+Mapped type            → transform properties
+Template literal type  → restrict string patterns
+infer                  → extract/infer a type
+satisfies              → check without unnecessarily widening
+React + TypeScript
+Props       → interface/type
+children    → React.ReactNode
+useState    → usually inferred
+useRef      → Element | null
+useReducer  → State + Action union
+useContext  → typed context
+API         → ApiResponse<T>
+Custom hook → typed inputs + outputs
+API / Full Stack
+Request body → typed DTO
+Response     → generic response
+API data     → unknown until validated
+Shared types → frontend + backend contract
+The 10 concepts I would make automatic for interviews
+any vs unknown
+Union vs intersection
+type vs interface
+Type narrowing
+Generics
+Generic constraints
+Utility types
+keyof / typeof
+Conditional + mapped types
+TypeScript + React
+
+A particularly useful interview progression to memorize is:
+
+Types → Unions → Narrowing → Generics → Utility Types → keyof → Mapped Types → Conditional Types → infer → React + TypeScript → API typing.
+
