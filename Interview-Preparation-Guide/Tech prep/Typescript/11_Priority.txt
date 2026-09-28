@@ -1,0 +1,48 @@
+🔥 Priority 11 — infer
+100. What is infer?
+
+infer allows TypeScript to introduce a type variable inside a conditional type and infer its value.
+
+Example:
+
+type MyReturnType<T> =
+  T extends (...args: any[]) => infer R
+    ? R
+    : never;
+
+Here R represents the inferred return type.
+
+🧠 Easy Memory:
+
+infer = ask TypeScript to figure out a type for you.
+
+101. How does infer work inside conditional types?
+
+It extracts part of a type.
+
+type GetArrayElement<T> =
+  T extends (infer U)[] ? U : never;
+type Result = GetArrayElement<string[]>;
+
+Result:
+
+string
+
+🧠 Easy Memory:
+
+infer extracts an unknown piece of a type.
+
+102. How does TypeScript implement ReturnType conceptually?
+
+Conceptually:
+
+type MyReturnType<T> =
+  T extends (...args: any[]) => infer R
+    ? R
+    : never;
+
+If T is a function, infer R extracts its return type.
+
+🧠 Easy Memory:
+
+ReturnType = conditional type + infer to extract the return type.
