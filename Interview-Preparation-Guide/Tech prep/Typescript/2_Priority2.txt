@@ -1,0 +1,205 @@
+🔥 Priority 2 — type, interface, and Objects
+13. Difference between type and interface?
+
+Both can define object structures.
+
+interface User {
+  name: string;
+}
+type User = {
+  name: string;
+};
+
+An important difference is that interfaces support declaration merging:
+
+interface User {
+  name: string;
+}
+
+interface User {
+  age: number;
+}
+
+Types cannot be redeclared with the same name.
+
+Types are also very convenient for unions:
+
+type Status = "success" | "error";
+
+🧠 Easy Memory:
+
+interface → object contract/merging; type → flexible composition/unions.
+
+14. When would you use interface instead of type?
+
+Use an interface when primarily describing an object/class contract and when extension or declaration merging may be useful.
+
+interface User {
+  id: number;
+  name: string;
+}
+
+For React props, both are valid.
+
+🧠 Easy Memory:
+
+Use interface naturally for object contracts.
+
+15. Can interfaces be extended?
+
+Yes.
+
+interface User {
+  name: string;
+}
+
+interface Admin extends User {
+  permissions: string[];
+}
+
+Admin now contains both name and permissions.
+
+🧠 Easy Memory:
+
+Interface inheritance uses extends.
+
+16. Can types be extended?
+
+Yes. Type aliases commonly use intersections.
+
+type User = {
+  name: string;
+};
+
+type Admin = User & {
+  permissions: string[];
+};
+
+🧠 Easy Memory:
+
+Interface → extends; Type → usually &.
+
+17. What is declaration merging?
+
+Declaration merging means TypeScript combines multiple declarations having the same name.
+
+interface User {
+  name: string;
+}
+
+interface User {
+  age: number;
+}
+
+They become effectively:
+
+interface User {
+  name: string;
+  age: number;
+}
+
+🧠 Easy Memory:
+
+Multiple interface declarations can merge into one.
+
+18. Can two interfaces have the same name?
+
+Yes.
+
+interface User {
+  name: string;
+}
+
+interface User {
+  age: number;
+}
+
+They are merged.
+
+🧠 Easy Memory:
+
+Same-name interfaces merge.
+
+19. Can two type aliases have the same name?
+
+No.
+
+type User = {
+  name: string;
+};
+
+type User = {
+  age: number;
+};
+
+This produces a duplicate identifier error.
+
+🧠 Easy Memory:
+
+Interfaces merge; type aliases cannot be redeclared.
+
+20. How do you create optional properties?
+
+Use ?.
+
+interface User {
+  id: number;
+  email?: string;
+}
+
+🧠 Easy Memory:
+
+? after a property = optional.
+
+21. What does readonly mean?
+
+It prevents reassignment of a property after initialization.
+
+interface User {
+  readonly id: number;
+  name: string;
+}
+user.name = "Kumar"; // ✅
+user.id = 2;         // ❌
+
+🧠 Easy Memory:
+
+readonly = read but don't reassign.
+
+22. How do you define an object type?
+
+Using interface:
+
+interface User {
+  id: number;
+  name: string;
+}
+
+Or type:
+
+type User = {
+  id: number;
+  name: string;
+};
+
+🧠 Easy Memory:
+
+Object type = define its required shape.
+
+23. How do you define nested object types?
+interface User {
+  id: number;
+  name: string;
+  address: {
+    city: string;
+    country: string;
+  };
+}
+
+🧠 Easy Memory:
+
+Nested object = define the inner object's shape too.
+
+
+
+A union allows a value to have
