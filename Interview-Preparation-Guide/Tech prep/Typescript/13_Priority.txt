@@ -1,0 +1,90 @@
+🔥 Priority 13 — Type Assertions
+108. What is type assertion?
+
+A type assertion tells TypeScript to treat a value as a particular type.
+
+const user = value as User;
+
+It does not convert the value at runtime.
+
+🧠 Easy Memory:
+
+Assertion = tell TypeScript what you believe the type is.
+
+109. Type assertion vs type casting?
+
+Type casting generally implies an actual conversion.
+
+TypeScript's as assertion does not convert the runtime value.
+
+const value = "123";
+
+const result = value as unknown as number;
+
+This does not actually convert "123" into 123.
+
+🧠 Easy Memory:
+
+as changes TypeScript's view, not the runtime value.
+
+110. What is non-null assertion?
+
+The ! operator tells TypeScript that a value is not null or undefined.
+
+element!.value
+
+You're telling the compiler:
+
+"I know this exists."
+
+🧠 Easy Memory:
+
+! = "Trust me, it's not null."
+
+111. Why can excessive type assertions be dangerous?
+
+Because assertions don't perform runtime validation.
+
+const user = data as User;
+
+If data doesn't actually match User, runtime bugs can occur.
+
+🧠 Easy Memory:
+
+Assertion gives confidence to the compiler, not validation of the data.
+
+112. Difference between as and satisfies?
+
+as tells TypeScript to treat a value as a type.
+
+const config = value as Config;
+
+satisfies checks that a value conforms to a type while preserving more specific inferred information.
+
+const config = {
+  port: 3000,
+  environment: "production"
+} satisfies Config;
+
+🧠 Easy Memory:
+
+as = assert; satisfies = validate compatibility while preserving inference.
+
+113. What is satisfies?
+
+satisfies checks that an expression conforms to a type without unnecessarily changing its inferred type.
+
+interface Config {
+  port: number;
+  environment: string;
+}
+
+const config = {
+  port: 3000,
+  environment: "production"
+} satisfies Config;
+
+🧠 Easy Memory:
+
+satisfies checks the shape without throwing away useful inference.
+
