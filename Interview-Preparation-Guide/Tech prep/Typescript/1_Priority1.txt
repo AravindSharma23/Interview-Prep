@@ -1,0 +1,231 @@
+🔥 Priority 1 — TypeScript Fundamentals
+1. What is TypeScript and why do we use it?
+
+Answer:
+
+TypeScript is a superset of JavaScript developed by Microsoft that adds static typing and other features to JavaScript.
+
+We use TypeScript to:
+
+Catch errors during development.
+Improve code readability.
+Get better IDE/autocomplete support.
+Make large applications easier to maintain.
+Define contracts between different parts of an application.
+
+Example:
+
+function add(a: number, b: number): number {
+  return a + b;
+}
+
+add(10, 20);
+
+Here TypeScript prevents:
+
+add("10", "20"); // Error
+
+🧠 One-liner:
+
+TypeScript = JavaScript + static type checking.
+
+2. TypeScript vs JavaScript?
+JavaScript	TypeScript
+Dynamically typed	Statically typed
+Errors mostly discovered at runtime	Many errors caught during development
+No compilation required	Compiled/transpiled to JavaScript
+Easier for small scripts	Better for large applications
+Less type information	Rich type system
+
+🧠 One-liner:
+
+JavaScript checks many things at runtime; TypeScript catches many mistakes before runtime.
+
+3. What are the advantages of TypeScript?
+
+Main advantages:
+
+Static type checking.
+Better autocomplete.
+Better refactoring.
+Improved maintainability.
+Easier collaboration in large teams.
+Supports interfaces, generics, utility types, etc.
+Detects many bugs during development.
+
+🧠 One-liner:
+
+TypeScript improves developer safety, tooling, and maintainability.
+
+4. What happens when TypeScript code is compiled?
+
+TypeScript code is converted into JavaScript by the TypeScript compiler (tsc).
+
+For example:
+
+const age: number = 25;
+
+becomes approximately:
+
+const age = 25;
+
+The TypeScript-specific type information is removed because JavaScript doesn't understand TypeScript types.
+
+🧠 One-liner:
+
+TypeScript types exist during development/compilation, not at JavaScript runtime.
+
+5. Is TypeScript statically typed or dynamically typed?
+
+TypeScript is statically typed.
+
+The type of a variable is checked during development/compilation rather than waiting until runtime.
+
+let age: number = 25;
+
+age = "hello"; // TypeScript error
+
+🧠 One-liner:
+
+Static typing means type errors are caught before the code runs.
+
+6. What is type inference?
+
+Type inference means TypeScript automatically determines a variable's type without requiring us to explicitly write it.
+
+let name = "Aravind";
+
+TypeScript infers:
+
+name: string
+
+Another example:
+
+let age = 25;
+
+TypeScript infers:
+
+age: number
+
+🧠 One-liner:
+
+Inference = TypeScript automatically figures out the type.
+
+7. What is type annotation?
+
+A type annotation is when we explicitly specify the type.
+
+let age: number = 25;
+let name: string = "Aravind";
+let isAdmin: boolean = false;
+
+🧠 One-liner:
+
+Annotation = developer explicitly tells TypeScript the type.
+
+8. Difference between let, const, and readonly?
+
+let allows reassignment:
+
+let age = 25;
+age = 26;
+
+const prevents reassignment of the variable:
+
+const age = 25;
+// age = 26; ❌
+
+readonly prevents modification of a property:
+
+interface User {
+  readonly id: number;
+  name: string;
+}
+
+const user: User = {
+  id: 1,
+  name: "Aravind"
+};
+
+user.name = "Kumar"; // ✅
+user.id = 2;         // ❌
+
+🧠 One-liner:
+
+const protects a variable binding; readonly protects an object property.
+
+9. What is structural typing?
+
+TypeScript uses structural typing, meaning compatibility is based on the shape of an object, not its name.
+
+interface User {
+  name: string;
+}
+
+const person = {
+  name: "Aravind",
+  age: 25
+};
+
+const user: User = person;
+
+This works because person contains the required name property.
+
+🧠 One-liner:
+
+Structural typing = "If it has the required shape, it can be compatible."
+
+10. What is type safety?
+
+Type safety means the compiler helps ensure that values are used according to their expected types.
+
+let age: number = 25;
+
+age = "hello"; // ❌
+
+This prevents many common programming errors.
+
+🧠 One-liner:
+
+Type safety prevents using a value in an incompatible way.
+
+11. What is tsconfig.json?
+
+tsconfig.json is the configuration file for a TypeScript project.
+
+It controls things such as:
+
+Target JavaScript version
+Module system
+Strict checking
+Source directory
+Output directory
+JSX configuration
+
+Example:
+
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "strict": true
+  }
+}
+
+🧠 One-liner:
+
+tsconfig.json tells TypeScript how to compile and check your project.
+
+12. What does strict: true do?
+
+strict: true enables a collection of stricter type-checking options.
+
+It helps catch issues such as:
+
+Implicit any
+Possible null/undefined
+Incorrect function types
+Unsafe assumptions
+
+🧠 One-liner:
+
+strict: true = turn on TypeScript's strongest standard type checking.
