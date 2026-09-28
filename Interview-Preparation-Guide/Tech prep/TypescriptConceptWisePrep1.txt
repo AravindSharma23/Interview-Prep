@@ -85,7 +85,7 @@ type Employee = User & {
   - when you want to provide a default value if something is null or undefined.
  Eg :  const value = login == 'success' ?? 'Go and Login'
 
-6.  any vs unknown :
+6.  any vs unknown vs never :
    - “any disables type checking completely, while unknown is a safer alternative that requires type checking before usage.”
 | Feature        | any    | unknown          |
 | -------------- | ------ | ---------------- |
@@ -99,7 +99,8 @@ Eg :
 if (typeof value === "string") {
   console.log(value.toUpperCase()); // safe
 }
-
+ never :
+ In TypeScript, never is the type for values that can never occur — it marks unreachable code, functions that never return (because they throw or loop forever), and impossible type states. 
 6 . What is Type Inference?
 
 👉 TypeScript automatically determines types without explicit annotation.
