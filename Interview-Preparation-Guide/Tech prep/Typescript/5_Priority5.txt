@@ -1,0 +1,101 @@
+🔥 Priority 5 — any, unknown, never, void
+39. Difference between any and unknown?
+
+any:
+
+let value: any = "hello";
+value.foo.bar(); // Allowed
+
+unknown:
+
+let value: unknown = "hello";
+
+value.toUpperCase(); // Error
+
+if (typeof value === "string") {
+  value.toUpperCase();
+}
+
+🧠 Easy Memory:
+
+any removes safety; unknown preserves safety.
+
+40. Difference between unknown and never?
+
+unknown means the value could be anything, but we don't know its type yet.
+
+never means no value is possible.
+
+let value: unknown;
+
+versus:
+
+function fail(): never {
+  throw new Error();
+}
+
+🧠 Easy Memory:
+
+unknown = unknown value; never = impossible value.
+
+41. What is void?
+
+void is commonly used for functions that don't return a meaningful value.
+
+function log(message: string): void {
+  console.log(message);
+}
+
+🧠 Easy Memory:
+
+void = no meaningful return value.
+
+42. When does a function return never?
+
+When it never completes normally.
+
+Examples:
+
+function fail(): never {
+  throw new Error("Error");
+}
+
+or:
+
+function infinite(): never {
+  while (true) {}
+}
+
+🧠 Easy Memory:
+
+never = function never reaches normal completion.
+
+43. What is the use of never in exhaustive checking?
+
+It can ensure all members of a union have been handled.
+
+type Status = "success" | "error";
+
+function handle(status: Status) {
+  switch (status) {
+    case "success":
+      return "Success";
+
+    case "error":
+      return "Error";
+
+    default: {
+      const check: never = status;
+      return check;
+    }
+  }
+}
+
+If a new union member is added and not handled, TypeScript can flag the problem.
+
+🧠 Easy Memory:
+
+never helps catch missing union cases.
+
+
+Generics allow us to write reusable code that works with different types while preserving type information.
