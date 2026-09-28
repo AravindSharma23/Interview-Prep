@@ -1,0 +1,86 @@
+🔥 Priority 12 — Enums
+103. What is an enum?
+
+An enum defines a set of named constants.
+
+enum Role {
+  ADMIN = "ADMIN",
+  USER = "USER"
+}
+
+Usage:
+
+const role = Role.ADMIN;
+
+🧠 Easy Memory:
+
+Enum = named set of related constants.
+
+104. Numeric vs string enums?
+
+Numeric enum:
+
+enum Direction {
+  Up,
+  Down
+}
+
+Values are numeric by default.
+
+String enum:
+
+enum Role {
+  ADMIN = "ADMIN",
+  USER = "USER"
+}
+
+Values are explicit strings.
+
+🧠 Easy Memory:
+
+Numeric enum → numbers; string enum → explicit strings.
+
+105. What are disadvantages of enums?
+
+Potential disadvantages include:
+
+They introduce runtime JavaScript output.
+They can be more verbose.
+String literal unions are often simpler.
+They may be unnecessary for simple fixed sets of values.
+
+🧠 Easy Memory:
+
+Enums are runtime constructs; unions can often express the same idea more simply.
+
+106. Enum vs union literal types?
+
+Enum:
+
+enum Role {
+  ADMIN = "ADMIN",
+  USER = "USER"
+}
+
+Union:
+
+type Role = "ADMIN" | "USER";
+
+A union is purely a type-level construct and doesn't create an enum object at runtime.
+
+🧠 Easy Memory:
+
+Enum creates a named runtime construct; union is mainly compile-time.
+
+107. When would you prefer a union over an enum?
+
+For a small fixed set of values:
+
+type Role = "ADMIN" | "USER";
+
+This is concise and works well with TypeScript's type system.
+
+🧠 Easy Memory:
+
+Simple fixed values → literal union is often enough.
+
