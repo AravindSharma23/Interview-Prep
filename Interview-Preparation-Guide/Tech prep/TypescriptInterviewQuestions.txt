@@ -1,0 +1,768 @@
+If your goal is **top product-based companies** and you're preparing for **React/Next.js + TypeScript roles**, don't study TypeScript as just syntax. Interviewers usually test whether you understand **type-system behavior, generics, narrowing, utility types, and how TypeScript works with real React code**.
+
+Here is a **pattern-wise TypeScript interview roadmap**, ordered by importance.
+
+## 🔥 Priority 1 — Must Know
+
+### 1. TypeScript Fundamentals
+
+1. What is TypeScript and why do we use it?
+2. TypeScript vs JavaScript?
+3. What are the advantages of TypeScript?
+4. What happens when TypeScript code is compiled?
+5. Is TypeScript statically typed or dynamically typed?
+6. What is type inference?
+7. What is type annotation?
+8. Difference between `let`, `const`, and `readonly`?
+9. What is structural typing?
+10. What is type safety?
+11. What is `tsconfig.json`?
+12. What does `strict: true` do?
+
+---
+
+# 🔥 Priority 2 — `type`, `interface`, and Objects
+
+These are **very frequently asked**.
+
+### 2. Type vs Interface
+
+13. Difference between `type` and `interface`?
+14. When would you use `interface` instead of `type`?
+15. Can interfaces be extended?
+16. Can types be extended?
+17. What is declaration merging?
+18. Can two interfaces have the same name?
+19. Can two type aliases have the same name?
+20. How do you create optional properties?
+21. What does `readonly` mean?
+22. How do you define an object type?
+23. How do you define nested object types?
+
+Example:
+
+```ts
+interface User {
+    id: number;
+    name: string;
+    email?: string;
+    readonly createdAt: Date;
+}
+```
+
+---
+
+# 🔥 Priority 3 — Union & Intersection Types
+
+### 3. Union Types
+
+24. What is a union type?
+
+```ts
+let id: string | number;
+```
+
+25. How do you narrow a union type?
+26. Difference between:
+
+```ts
+string | number
+```
+
+and
+
+```ts
+string & number
+```
+
+27. What is an intersection type?
+
+```ts
+type Employee = Person & Developer;
+```
+
+28. When should you use union vs intersection?
+29. What is a discriminated union?
+
+Very important:
+
+```ts
+type Success = {
+    status: "success";
+    data: string;
+};
+
+type ErrorResponse = {
+    status: "error";
+    message: string;
+};
+
+type Response = Success | ErrorResponse;
+```
+
+---
+
+# 🔥 Priority 4 — Type Narrowing
+
+This is a **top-company interview favorite**.
+
+### 4. Type Guards
+
+30. What is type narrowing?
+31. What is `typeof` narrowing?
+32. What is `instanceof` narrowing?
+33. What is the `in` operator used for?
+34. What is a custom type guard?
+35. What is the `is` keyword?
+
+Example:
+
+```ts
+function isString(value: unknown): value is string {
+    return typeof value === "string";
+}
+```
+
+36. Why is `unknown` safer than `any`?
+37. How does TypeScript narrow types inside `if` statements?
+38. What is control-flow analysis?
+
+---
+
+# 🔥 Priority 5 — `any`, `unknown`, `never`, `void`
+
+These are extremely important.
+
+### 5. Special Types
+
+39. Difference between `any` and `unknown`?
+40. Difference between `unknown` and `never`?
+41. What is `void`?
+42. When does a function return `never`?
+43. What is the use of `never` in exhaustive checking?
+
+Example:
+
+```ts
+function throwError(message: string): never {
+    throw new Error(message);
+}
+```
+
+Also understand:
+
+```ts
+any
+unknown
+never
+void
+null
+undefined
+```
+
+---
+
+# 🔥 Priority 6 — Generics ⭐⭐⭐
+
+If you're targeting top product companies, **master generics**.
+
+### 6. Generics
+
+44. What are generics?
+45. Why do we need generics?
+46. Generic function vs normal function?
+47. What are generic constraints?
+48. What does `extends` mean in generics?
+49. Multiple generic parameters?
+50. Generic interfaces?
+51. Generic types?
+52. Generic classes?
+53. Default generic types?
+54. What are generic constraints?
+
+Example:
+
+```ts
+function getValue<T>(value: T): T {
+    return value;
+}
+```
+
+Constraint:
+
+```ts
+function getLength<T extends { length: number }>(value: T) {
+    return value.length;
+}
+```
+
+Multiple generics:
+
+```ts
+function merge<T, U>(a: T, b: U): T & U {
+    return { ...a, ...b };
+}
+```
+
+### ⭐ Interview-level generic questions
+
+55. Implement a generic `identity()` function.
+56. Create a generic API response type.
+57. Create a generic pagination type.
+58. Restrict a generic to objects containing a particular property.
+59. Explain how generic constraints work.
+
+---
+
+# 🔥 Priority 7 — Utility Types ⭐⭐⭐
+
+You absolutely should know these.
+
+### 7. Built-in Utility Types
+
+60. What is `Partial<T>`?
+61. What is `Required<T>`?
+62. What is `Readonly<T>`?
+63. What is `Pick<T, K>`?
+64. What is `Omit<T, K>`?
+65. What is `Record<K, T>`?
+66. What is `Exclude<T, U>`?
+67. What is `Extract<T, U>`?
+68. What is `NonNullable<T>`?
+69. What is `ReturnType<T>`?
+70. What is `Parameters<T>`?
+71. What is `Awaited<T>`?
+72. What is `InstanceType<T>`?
+
+Example:
+
+```ts
+interface User {
+    id: number;
+    name: string;
+    email: string;
+}
+```
+
+```ts
+type UpdateUser = Partial<User>;
+```
+
+```ts
+type UserPreview = Pick<User, "id" | "name">;
+```
+
+```ts
+type UserWithoutEmail = Omit<User, "email">;
+```
+
+---
+
+# 🔥 Priority 8 — `keyof`, `typeof`, `typeof` vs `type`
+
+Very important for advanced TypeScript.
+
+### 8. Type Operators
+
+73. What is `keyof`?
+
+```ts
+type User = {
+    id: number;
+    name: string;
+};
+
+type UserKeys = keyof User;
+```
+
+Result:
+
+```ts
+"id" | "name"
+```
+
+74. What is `typeof` in TypeScript?
+75. Difference between JavaScript `typeof` and TypeScript `typeof`?
+76. What is indexed access type?
+
+```ts
+type UserName = User["name"];
+```
+
+77. What is `keyof typeof`?
+
+Example:
+
+```ts
+const roles = {
+    admin: "ADMIN",
+    user: "USER"
+};
+
+type Role = keyof typeof roles;
+```
+
+This pattern is **very common in real-world TypeScript**.
+
+---
+
+# 🔥 Priority 9 — Functions
+
+### 9. Function Types
+
+78. How do you type a function?
+79. How do you type function parameters?
+80. How do you specify return types?
+81. Optional parameters?
+82. Default parameters?
+83. Rest parameters?
+84. Function overloads?
+85. Difference between overloads and union parameters?
+86. What is a callback type?
+87. How do you type an async function?
+
+Example:
+
+```ts
+async function getUser(id: number): Promise<User> {
+    // ...
+}
+```
+
+---
+
+# 🔥 Priority 10 — Advanced Types ⭐⭐⭐
+
+These separate beginner/intermediate developers from strong TypeScript developers.
+
+### 10. Conditional Types
+
+88. What are conditional types?
+
+```ts
+type IsString<T> = T extends string ? true : false;
+```
+
+89. What does `T extends U ? X : Y` mean?
+90. What are distributive conditional types?
+91. How do conditional types work with unions?
+
+---
+
+### 11. Mapped Types
+
+92. What are mapped types?
+
+```ts
+type Optional<T> = {
+    [K in keyof T]?: T[K];
+};
+```
+
+93. How do mapped types work?
+94. Difference between mapped types and utility types?
+95. How would you make every property readonly?
+96. How would you make every property optional?
+
+---
+
+### 12. Template Literal Types
+
+97. What are template literal types?
+
+```ts
+type EventName = `on${string}`;
+```
+
+98. How can template literal types be used to restrict strings?
+99. How are template literal types different from JavaScript template literals?
+
+---
+
+# 🔥 Priority 11 — `infer`
+
+### 13. Infer Keyword
+
+100. What is `infer`?
+101. How does `infer` work inside conditional types?
+102. How does TypeScript implement `ReturnType` conceptually?
+
+Example:
+
+```ts
+type MyReturnType<T> =
+    T extends (...args: any[]) => infer R
+        ? R
+        : never;
+```
+
+You don't necessarily need to memorize implementations, but **understanding them is valuable for senior/product-company interviews**.
+
+---
+
+# 🔥 Priority 12 — Enums
+
+### 14. Enums
+
+103. What is an enum?
+104. Numeric vs string enums?
+105. What are the disadvantages of enums?
+106. Enum vs union literal types?
+107. When would you prefer:
+
+```ts
+type Role = "ADMIN" | "USER";
+```
+
+over:
+
+```ts
+enum Role {
+    ADMIN = "ADMIN",
+    USER = "USER"
+}
+```
+
+---
+
+# 🔥 Priority 13 — Assertions
+
+### 15. Type Assertions
+
+108. What is type assertion?
+
+```ts
+const user = value as User;
+```
+
+109. Type assertion vs type casting?
+110. What is non-null assertion?
+
+```ts
+element!.value
+```
+
+111. Why can excessive type assertions be dangerous?
+112. Difference between:
+
+```ts
+as
+```
+
+and
+
+```ts
+satisfies
+```
+
+### ⭐ `satisfies`
+
+Very useful modern TypeScript concept:
+
+```ts
+const config = {
+    port: 3000,
+    environment: "production"
+} satisfies Config;
+```
+
+Understand why `satisfies` can be preferable to `as`.
+
+---
+
+# 🔥 Priority 14 — Null Safety
+
+### 16. Null & Undefined
+
+113. What is `strictNullChecks`?
+114. Difference between `null` and `undefined`?
+115. How do optional chaining and nullish coalescing work?
+
+```ts
+user?.address?.city
+```
+
+```ts
+value ?? defaultValue
+```
+
+116. Difference between:
+
+```ts
+||
+```
+
+and
+
+```ts
+??
+```
+
+117. How does TypeScript handle nullable values?
+
+---
+
+# 🔥 Priority 15 — TypeScript + React ⭐⭐⭐⭐⭐
+
+Since you're preparing for **React/Next.js positions**, this deserves a separate section.
+
+### 17. React Props
+
+118. How do you type React component props?
+
+```tsx
+interface Props {
+    name: string;
+    age: number;
+}
+
+function User({ name, age }: Props) {
+    return <div>{name}</div>;
+}
+```
+
+119. `type` vs `interface` for React props?
+120. How do you type children?
+121. What is `React.ReactNode`?
+122. `ReactNode` vs `ReactElement`?
+123. How do you type event handlers?
+124. How do you type `useState`?
+125. How do you type `useRef`?
+126. How do you type `useReducer`?
+127. How do you type `useContext`?
+128. How do you type custom hooks?
+129. How do you type API responses?
+130. How do you type reusable components?
+
+---
+
+# 🔥 Priority 16 — TypeScript + API
+
+This is especially important for your MERN/Next.js preparation.
+
+### 18. API Typing
+
+131. How do you define an API response type?
+
+```ts
+interface ApiResponse<T> {
+    success: boolean;
+    data: T;
+    message?: string;
+}
+```
+
+Then:
+
+```ts
+type UserResponse = ApiResponse<User>;
+```
+
+132. How do you type API errors?
+133. How do you type Axios responses?
+134. How do you type `fetch()` responses?
+135. How do you safely handle `unknown` API data?
+136. How do you type pagination?
+137. How do you type API request payloads?
+138. How do you avoid duplicating frontend/backend types?
+
+---
+
+# 🔥 Priority 17 — TypeScript + Next.js
+
+For a modern React/Next.js interview:
+
+139. How does TypeScript work with Next.js?
+140. How do you type Server Components?
+141. How do you type Client Components?
+142. How do you type route parameters?
+143. How do you type search parameters?
+144. How do you type API route responses?
+145. How do you type environment variables?
+146. What is the difference between `NEXT_PUBLIC_*` and server-only environment variables?
+147. How do you create shared types between frontend and backend?
+
+---
+
+# 🔥 Priority 18 — Real Interview Coding Questions
+
+Don't only memorize theory. Practice implementing these.
+
+### ⭐ Coding Question 1 — Generic Identity
+
+```ts
+function identity<T>(value: T): T
+```
+
+---
+
+### ⭐ Coding Question 2 — Generic API Response
+
+Create:
+
+```ts
+ApiResponse<T>
+```
+
+that supports:
+
+```ts
+ApiResponse<User>
+ApiResponse<Product>
+ApiResponse<Order>
+```
+
+---
+
+### ⭐ Coding Question 3 — Make Properties Optional
+
+Implement your own:
+
+```ts
+MyPartial<T>
+```
+
+Expected concept:
+
+```ts
+type MyPartial<T> = {
+    [K in keyof T]?: T[K];
+};
+```
+
+---
+
+### ⭐ Coding Question 4 — Pick
+
+Implement:
+
+```ts
+MyPick<T, K>
+```
+
+---
+
+### ⭐ Coding Question 5 — Readonly
+
+Implement:
+
+```ts
+MyReadonly<T>
+```
+
+---
+
+### ⭐ Coding Question 6 — Exclude
+
+Implement:
+
+```ts
+MyExclude<T, U>
+```
+
+---
+
+### ⭐ Coding Question 7 — ReturnType
+
+Implement:
+
+```ts
+MyReturnType<T>
+```
+
+This tests:
+
+* conditional types
+* `infer`
+* function types
+
+---
+
+### ⭐ Coding Question 8 — Type-safe `get`
+
+Given:
+
+```ts
+const user = {
+    id: 1,
+    name: "Aravind",
+    age: 25
+};
+```
+
+Create:
+
+```ts
+get(user, "name")
+```
+
+but prevent:
+
+```ts
+get(user, "xyz")
+```
+
+Expected concept:
+
+```ts
+function get<T, K extends keyof T>(obj: T, key: K): T[K] {
+    return obj[key];
+}
+```
+
+**This is an excellent interview problem.**
+
+---
+
+# 🧠 Most Important "Why?" Questions
+
+Top companies often go beyond definitions.
+
+Make sure you can explain:
+
+1. Why is `unknown` safer than `any`?
+2. Why does TypeScript use structural typing?
+3. Why does `keyof` return a union?
+4. Why do we need generics?
+5. Why use `extends` in generics?
+6. Why does `never` exist?
+7. Why are conditional types useful?
+8. How does type narrowing actually work?
+9. Why can TypeScript not validate API responses at runtime?
+10. Why are type assertions potentially dangerous?
+11. Why use `satisfies` instead of `as` in some cases?
+12. Why can TypeScript allow some seemingly unsafe assignments?
+13. What happens to TypeScript types at runtime?
+14. Does TypeScript provide runtime type safety?
+15. How would you validate unknown API data at runtime?
+
+---
+
+# 🎯 What I Recommend You Prioritize
+
+Since you're preparing for **React/Next.js + product-based company interviews**, I'd divide your preparation like this:
+
+| Priority        | Topics                                   |
+| --------------- | ---------------------------------------- |
+| 🔴 Must Master  | Types, Interfaces, Unions, Intersections |
+| 🔴 Must Master  | Type Narrowing & Type Guards             |
+| 🔴 Must Master  | `any`, `unknown`, `never`, `void`        |
+| 🔴 Must Master  | Generics                                 |
+| 🔴 Must Master  | Utility Types                            |
+| 🔴 Must Master  | `keyof`, `typeof`, indexed access        |
+| 🔴 Must Master  | React + TypeScript                       |
+| 🟠 Strong       | Conditional Types                        |
+| 🟠 Strong       | Mapped Types                             |
+| 🟠 Strong       | `infer`                                  |
+| 🟠 Strong       | Function Overloads                       |
+| 🟠 Strong       | `satisfies`                              |
+| 🟡 Good to Know | Template Literal Types                   |
+| 🟡 Good to Know | Enums                                    |
+| 🟡 Good to Know | Declaration Merging                      |
+| 🟡 Good to Know | Module Augmentation                      |
+
+### A very effective order for you
+
+**JavaScript fundamentals → TypeScript fundamentals → narrowing → generics → utility types → type operators → advanced types → React + TypeScript → Next.js + TypeScript → TypeScript coding problems.**
+
+If you can **explain and implement the 🔴 sections without memorizing**, you'll have a strong TypeScript interview foundation for React/Next.js product-company roles.
