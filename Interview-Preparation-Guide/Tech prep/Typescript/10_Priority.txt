@@ -1,0 +1,43 @@
+🔥 Priority 10 — Template Literal Types
+97. What are template literal types?
+
+They create string types based on template patterns.
+
+type EventName = `on${string}`;
+
+Valid:
+
+"onclick"
+"onchange"
+"onsubmit"
+
+🧠 Easy Memory:
+
+Template literal types restrict strings using patterns.
+
+98. How can template literal types restrict strings?
+type EventName =
+  `on${"Click" | "Change"}`;
+
+Result:
+
+"onClick" | "onChange"
+
+🧠 Easy Memory:
+
+Template literal types create allowed string patterns.
+
+99. How are template literal types different from JavaScript template literals?
+
+JavaScript template literals create strings at runtime:
+
+`Hello ${name}`
+
+TypeScript template literal types operate at the type level:
+
+type Event = `on${string}`;
+
+🧠 Easy Memory:
+
+JS template literal = runtime string; TS template literal type = compile-time type.
+
