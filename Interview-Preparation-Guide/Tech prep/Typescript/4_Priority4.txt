@@ -1,0 +1,125 @@
+🔥 Priority 4 — Type Narrowing
+30. What is type narrowing?
+
+Type narrowing is reducing a broad type into a more specific type based on a condition.
+
+function print(value: string | number) {
+  if (typeof value === "string") {
+    value.toUpperCase();
+  }
+}
+
+🧠 Easy Memory:
+
+Narrowing = broad type → specific type.
+
+31. What is typeof narrowing?
+
+typeof is commonly used to narrow primitive values.
+
+if (typeof value === "string") {
+  value.toUpperCase();
+}
+
+🧠 Easy Memory:
+
+typeof → primitive type check.
+
+32. What is instanceof narrowing?
+
+It checks whether an object is an instance of a particular class/constructor.
+
+function process(value: Date | string) {
+  if (value instanceof Date) {
+    console.log(value.getFullYear());
+  }
+}
+
+🧠 Easy Memory:
+
+instanceof → class/object check.
+
+33. What is the in operator used for?
+
+It checks whether a property exists in an object.
+
+if ("permissions" in user) {
+  console.log(user.permissions);
+}
+
+It can also help TypeScript narrow a union.
+
+🧠 Easy Memory:
+
+in → check whether a property exists.
+
+34. What is a custom type guard?
+
+It's a function that tells TypeScript the type of a value when it returns true.
+
+function isString(value: unknown): value is string {
+  return typeof value === "string";
+}
+
+🧠 Easy Memory:
+
+Custom guard = your own type-checking function.
+
+35. What is the is keyword?
+
+is creates a type predicate.
+
+function isString(value: unknown): value is string {
+  return typeof value === "string";
+}
+
+It tells TypeScript that if the function returns true, the value is a string.
+
+🧠 Easy Memory:
+
+value is Type = "if true, treat value as this Type."
+
+36. Why is unknown safer than any?
+
+any disables type checking.
+
+let value: any = "hello";
+value.foo.bar(); // Allowed by compiler
+
+unknown requires narrowing:
+
+let value: unknown = "hello";
+
+if (typeof value === "string") {
+  value.toUpperCase();
+}
+
+🧠 Easy Memory:
+
+any = trust me; unknown = prove it first.
+
+37. How does TypeScript narrow types inside if statements?
+
+TypeScript performs control-flow analysis.
+
+function process(value: string | number) {
+  if (typeof value === "string") {
+    // value is string
+  } else {
+    // value is number
+  }
+}
+
+🧠 Easy Memory:
+
+TypeScript uses conditions to eliminate impossible types.
+
+38. What is control-flow analysis?
+
+TypeScript analyzes how the code flows through if, else, switch, return, throw, etc., to determine the type of variables at each point.
+
+🧠 Easy Memory:
+
+Control-flow analysis = TypeScript follows the program path.
+
+
