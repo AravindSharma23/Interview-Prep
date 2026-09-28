@@ -1,0 +1,243 @@
+⭐ Priority 6 — Generics
+44. What are generics?
+
+Generics allow us to write reusable code that works with different types while preserving type information.
+
+function identity<T>(value: T): T {
+  return value;
+}
+identity(10);       // number
+identity("hello");  // string
+
+🧠 Easy Memory:
+
+Generics = reusable code without losing type information.
+
+45. Why do we need generics?
+
+Without generics, we may use any, which loses type safety.
+
+function identity(value: any): any {
+  return value;
+}
+
+With generics:
+
+function identity<T>(value: T): T {
+  return value;
+}
+
+The input and output types remain connected.
+
+🧠 Easy Memory:
+
+Generics give us reusability + type safety.
+
+46. Generic function vs normal function?
+
+Normal function:
+
+function identity(value: string): string {
+  return value;
+}
+
+Only works with strings.
+
+Generic function:
+
+function identity<T>(value: T): T {
+  return value;
+}
+
+Works with different types while preserving their type.
+
+🧠 Easy Memory:
+
+Normal function fixes the type; generic function adapts to the type.
+
+47. What are generic constraints?
+
+A generic constraint limits what types can be passed to a generic.
+
+function getLength<T extends { length: number }>(value: T) {
+  return value.length;
+}
+
+Strings and arrays work because they have length.
+
+🧠 Easy Memory:
+
+Generic constraint = put rules on what T can be.
+
+48. What does extends mean in generics?
+
+In generics, extends means the type parameter must satisfy a constraint.
+
+function getLength<T extends { length: number }>(value: T) {
+  return value.length;
+}
+
+It does not mean class inheritance in this context.
+
+🧠 Easy Memory:
+
+Generic extends = "T must satisfy this requirement."
+
+49. Multiple generic parameters?
+
+Yes.
+
+function merge<T, U>(a: T, b: U): T & U {
+  return { ...a, ...b };
+}
+
+Example:
+
+const result = merge(
+  { name: "Aravind" },
+  { age: 25 }
+);
+
+🧠 Easy Memory:
+
+<T, U> lets one function work with multiple independent types.
+
+50. Generic interfaces?
+
+Yes.
+
+interface Box<T> {
+  value: T;
+}
+
+const numberBox: Box<number> = {
+  value: 10
+};
+
+🧠 Easy Memory:
+
+Generic interface = interface whose type is supplied later.
+
+51. Generic types?
+
+A type alias can also be generic.
+
+type ApiResponse<T> = {
+  data: T;
+  success: boolean;
+};
+type UserResponse = ApiResponse<User>;
+
+🧠 Easy Memory:
+
+Generic type = reusable type template.
+
+52. Generic classes?
+
+Classes can have type parameters.
+
+class Box<T> {
+  constructor(public value: T) {}
+}
+
+const box = new Box<number>(10);
+
+🧠 Easy Memory:
+
+Generic classes preserve type safety for class data.
+
+53. Default generic types?
+
+A generic can have a default type.
+
+type ApiResponse<T = string> = {
+  data: T;
+};
+
+If no type is supplied, string is used.
+
+🧠 Easy Memory:
+
+Default generic = fallback type for T.
+
+54. What are generic constraints?
+
+A generic constraint restricts the possible types.
+
+function getId<T extends { id: number }>(obj: T) {
+  return obj.id;
+}
+
+Only objects with a numeric id satisfy the constraint.
+
+🧠 Easy Memory:
+
+T extends X means T must contain/satisfy X.
+
+55. Implement a generic identity() function.
+function identity<T>(value: T): T {
+  return value;
+}
+
+🧠 Easy Memory:
+
+Input T → output same T.
+
+56. Create a generic API response type.
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
+
+Usage:
+
+type UserResponse = ApiResponse<User>;
+type ProductResponse = ApiResponse<Product>;
+
+🧠 Easy Memory:
+
+One response structure, different data types.
+
+57. Create a generic pagination type.
+interface Pagination<T> {
+  data: T[];
+  page: number;
+  limit: number;
+  total: number;
+}
+
+Usage:
+
+type UserPagination = Pagination<User>;
+
+🧠 Easy Memory:
+
+Pagination<T> = metadata + array of T.
+
+58. Restrict a generic to objects containing a particular property.
+function getId<T extends { id: number }>(obj: T): number {
+  return obj.id;
+}
+
+🧠 Easy Memory:
+
+Constrain T with extends when you need guaranteed properties.
+
+59. Explain how generic constraints work.
+
+A generic constraint defines the minimum structure a type must satisfy.
+
+function getLength<T extends { length: number }>(value: T) {
+  return value.length;
+}
+
+Here T can be any type as long as it has length: number.
+
+🧠 Easy Memory:
+
+Constraint = minimum requirement for a generic.
+
+
+
+Makes every property optional.
