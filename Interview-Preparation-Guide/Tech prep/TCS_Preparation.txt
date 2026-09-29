@@ -80,7 +80,7 @@ Const : hoisted + initialized (available in TDZ)= throws reference err
   - let & Const : hoisted + initialized (available in TDZ) = throws reference err
 
 14. this Keyword :
-  - 'this' refers to the object that is currently executing the function.
+  - this keyword refers to the object/context in which a function is executed.
   - Its value based on how that function is called , not where its defined
 
 15. call() :
